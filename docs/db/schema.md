@@ -57,3 +57,35 @@ erDiagram
 | updated_at | DATETIME | N | | 수정 일시 (BaseTimeEntity) |
 
 삭제 방식(물리/논리)은 결정 필요 D16. 추천값은 물리 삭제이므로 삭제 관련 컬럼은 두지 않는다.
+
+## ERD (장바구니)
+
+장바구니는 별도 테이블 없이 회원별 `cart_item` 행의 모음으로 둔다 (회원 1명 : 장바구니 1개로 보며 장바구니 자체의 속성이 요구사항에 없음). 아래 `결정 필요 D<번호>` 는 `docs/decisions/cart.md` 의 번호다.
+
+```mermaid
+erDiagram
+  MEMBER ||--o{ CART_ITEM : has
+  PRODUCT ||--o{ CART_ITEM : contained
+  CART_ITEM {
+    BIGINT id PK
+    BIGINT member_id FK
+    BIGINT product_id FK
+    INT quantity
+    DATETIME created_at
+    DATETIME updated_at
+  }
+```
+
+## cart_item
+
+| 컬럼 | 타입 | NULL | 키 | 설명 |
+|---|---|---|---|---|
+| id | BIGINT AUTO_INCREMENT | N | PK | 장바구니 항목 식별자 |
+| member_id | BIGINT | N | FK, UK(member_id, product_id) | 장바구니 소유 회원 (`member.id`). 소유자 식별 방식 결정 필요 D2 |
+| product_id | BIGINT | N | FK, UK(member_id, product_id) | 담은 상품 (`product.id`). 같은 상품 재담기 시 합산하므로 회원+상품 유일 (결정 필요 D3). 상품 삭제 시 처리 결정 필요 D6 |
+| quantity | INT | N | | 담은 수량. 1 이상 (결정 필요 D4). 재고 검증은 하지 않음 (결정 필요 D5) |
+| created_at | DATETIME | N | | 처음 담은 일시 (BaseTimeEntity) |
+| updated_at | DATETIME | N | | 수정 일시 (BaseTimeEntity) |
+
+- 상품명·가격은 저장하지 않고 `product` 의 현재 값을 조회해 응답한다 (결정 필요 D7).
+- 항목 삭제는 물리 삭제다 (product D16 과 같음).
