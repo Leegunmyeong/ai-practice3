@@ -48,8 +48,8 @@ erDiagram
 | 컬럼 | 타입 | NULL | 키 | 설명 |
 |---|---|---|---|---|
 | id | BIGINT AUTO_INCREMENT | N | PK | 상품 식별자 |
-| name | VARCHAR(100) | N | | 상품명. 1~100자 (D12), 중복 허용 결정 필요 D14 |
-| price | BIGINT | N | | 상품 가격(원 단위 정수). 범위 결정 필요 D13 |
+| name | VARCHAR(100) | N | | 상품명. 1~100자 (D12), 중복 허용 (D14) |
+| price | BIGINT | N | | 상품 가격(원 단위 정수). 0 이상 (D13) |
 | description | VARCHAR(1000) | Y | | 상품 설명. 길이 결정 필요 D21 |
 | stock | INT | N | | 재고 수량. 기본값 0. 범위 결정 필요 D21 |
 | category | VARCHAR(50) | Y | | 카테고리. 길이 결정 필요 D21 |

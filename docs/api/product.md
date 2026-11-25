@@ -30,7 +30,7 @@ success: `201 Created`
 
 - 필수: name, price
 - 선택: description, stock, category
-- 상품명은 1~100자 (D12). description·stock·category 의 세부 규칙 결정 필요 D21, 가격 규칙 결정 필요 D13, 상품명 중복 결정 필요 D14, 응답 내용 결정 필요 D20
+- 상품명은 1~100자 (D12). description·stock·category 의 세부 규칙 결정 필요 D21, 가격은 0 이상 정수(원) (D13), 상품명 중복 허용 (D14), 응답 내용 결정 필요 D20
 
 # 02. 요청(Request)
 
@@ -65,7 +65,7 @@ success: `201 Created`
 | 이름 | 데이터타입 | 필수 | 설명 |
 |---|---|---|---|
 | name | String | Y | 상품명. 1~100자 |
-| price | Long | Y | 가격(원). 범위 결정 필요 D13 |
+| price | Long | Y | 가격(원). 0 이상 정수 (D13) |
 | description | String | N | 상품 설명. 길이 결정 필요 D21 |
 | stock | Integer | N | 재고 수량. 생략하면 0. 범위 결정 필요 D21 |
 | category | String | N | 카테고리. 길이 결정 필요 D21 |
@@ -106,7 +106,7 @@ success: `201 Created`
 | createdAt | String | Y | 등록 일시 |
 | updatedAt | String | Y | 수정 일시 |
 
-**에러 응답:** `400 Bad Request` — 필수 값이 없거나 name 이 1~100자가 아니거나 형식이 올바르지 않을 때
+**에러 응답:** `400 Bad Request` — 필수 값이 없거나 name 이 1~100자가 아니거나 price 가 0 미만이거나 형식이 올바르지 않을 때
 
 ```json
 {
@@ -338,7 +338,7 @@ success: `200 OK`
 
 - 필수: productId, body 의 name·price·description·stock·category 중 1개 이상
 - 선택: name, price, description, stock, category (보낸 필드만 변경)
-- 상품명은 1~100자 (D12). description·stock·category 의 세부 규칙 결정 필요 D21. 수정 방식 결정 필요 D17, 가격 규칙 결정 필요 D13, 상품명 중복 결정 필요 D14, 응답 내용 결정 필요 D20
+- 상품명은 1~100자 (D12). description·stock·category 의 세부 규칙 결정 필요 D21. 수정 방식 결정 필요 D17, 가격은 0 이상 정수(원) (D13), 상품명 중복 허용 (D14), 응답 내용 결정 필요 D20
 
 # 02. 요청(Request)
 
@@ -370,7 +370,7 @@ success: `200 OK`
 | 이름 | 데이터타입 | 필수 | 설명 |
 |---|---|---|---|
 | name | String | N | 변경할 상품명. 1~100자 |
-| price | Long | N | 변경할 가격(원). 규칙 결정 필요 D13 |
+| price | Long | N | 변경할 가격(원). 0 이상 정수 (D13) |
 | description | String | N | 변경할 상품 설명. 규칙 결정 필요 D21 |
 | stock | Integer | N | 변경할 재고 수량. 규칙 결정 필요 D21 |
 | category | String | N | 변경할 카테고리. 규칙 결정 필요 D21 |
@@ -411,7 +411,7 @@ success: `200 OK`
 | createdAt | String | Y | 등록 일시 |
 | updatedAt | String | Y | 수정 일시 |
 
-**에러 응답:** `400 Bad Request` — 수정할 값이 하나도 없거나 name 이 1~100자가 아니거나 형식이 올바르지 않을 때
+**에러 응답:** `400 Bad Request` — 수정할 값이 하나도 없거나 name 이 1~100자가 아니거나 price 가 0 미만이거나 형식이 올바르지 않을 때
 
 ```json
 {

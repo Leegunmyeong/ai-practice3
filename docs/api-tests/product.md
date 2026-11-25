@@ -10,6 +10,7 @@
 | E6 | `DELETE /api/products/{productId}` | 없는 상품 삭제 | 404 |
 | E7 | `POST /api/products` | name 이 100자 초과 | 400 |
 | E8 | `POST /api/products` | name 이 빈 문자열 | 400 |
+| E9 | `POST /api/products` | price 가 음수 | 400 |
 
 ## E1. 필수 값(name) 누락
 요청: `POST /api/products`
@@ -154,6 +155,27 @@
 {
   "name": "",
   "price": 35000
+}
+```
+
+응답 `400`
+```json
+{
+  "status": 400,
+  "message": "요청 값이 올바르지 않습니다."
+}
+```
+
+## E9. price 가 음수
+요청: `POST /api/products`
+
+준비: 없음
+
+요청
+```json
+{
+  "name": "무선 키보드",
+  "price": -1
 }
 ```
 
