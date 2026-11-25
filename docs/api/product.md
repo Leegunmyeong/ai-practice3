@@ -1,6 +1,6 @@
 # 상품 API
 
-상품 요구사항 문서가 없어 기본 CRUD 5개를 추천값으로 정리했다 (범위 결정 필요 D10). 엔드포인트는 아래 순서로 이어서 적는다.
+상품 요구사항 문서가 없어 기본 CRUD 5개를 추천값으로 정리했다. 엔드포인트는 아래 순서로 이어서 적는다.
 
 | 번호 | 이름 | method | url | success |
 |---|---|---|---|---|
@@ -29,8 +29,8 @@ success: `201 Created`
 새 상품을 등록할 때 사용한다.
 
 - 필수: name, price
-- 선택: 없음
-- 필드 구성 결정 필요 D11, 상품명 규칙 결정 필요 D12, 가격 규칙 결정 필요 D13, 상품명 중복 결정 필요 D14, 응답 내용 결정 필요 D20
+- 선택: description, stock, category
+- 상품명은 1~100자 (D12). description·stock·category 의 세부 규칙 결정 필요 D21, 가격 규칙 결정 필요 D13, 상품명 중복 결정 필요 D14, 응답 내용 결정 필요 D20
 
 # 02. 요청(Request)
 
@@ -55,14 +55,20 @@ success: `201 Created`
 ```json
 {
   "name": "키보드",
-  "price": 35000
+  "price": 35000,
+  "description": "기계식 키보드",
+  "stock": 10,
+  "category": "컴퓨터 주변기기"
 }
 ```
 
 | 이름 | 데이터타입 | 필수 | 설명 |
 |---|---|---|---|
-| name | String | Y | 상품명. 길이 결정 필요 D12 |
+| name | String | Y | 상품명. 1~100자 |
 | price | Long | Y | 가격(원). 범위 결정 필요 D13 |
+| description | String | N | 상품 설명. 길이 결정 필요 D21 |
+| stock | Integer | N | 재고 수량. 생략하면 0. 범위 결정 필요 D21 |
+| category | String | N | 카테고리. 길이 결정 필요 D21 |
 
 # 03. 응답(Response)
 
@@ -81,6 +87,9 @@ success: `201 Created`
   "id": 1,
   "name": "키보드",
   "price": 35000,
+  "description": "기계식 키보드",
+  "stock": 10,
+  "category": "컴퓨터 주변기기",
   "createdAt": "2026-11-25T10:00:00",
   "updatedAt": "2026-11-25T10:00:00"
 }
@@ -91,10 +100,13 @@ success: `201 Created`
 | id | Long | Y | 생성된 상품 식별자 |
 | name | String | Y | 상품명 |
 | price | Long | Y | 가격(원) |
+| description | String | N | 상품 설명. 없으면 null |
+| stock | Integer | Y | 재고 수량 |
+| category | String | N | 카테고리. 없으면 null |
 | createdAt | String | Y | 등록 일시 |
 | updatedAt | String | Y | 수정 일시 |
 
-**에러 응답:** `400 Bad Request` — 필수 값이 없거나 형식이 올바르지 않을 때
+**에러 응답:** `400 Bad Request` — 필수 값이 없거나 name 이 1~100자가 아니거나 형식이 올바르지 않을 때
 
 ```json
 {
@@ -167,6 +179,9 @@ success: `200 OK`
   "id": 1,
   "name": "키보드",
   "price": 35000,
+  "description": "기계식 키보드",
+  "stock": 10,
+  "category": "컴퓨터 주변기기",
   "createdAt": "2026-11-25T10:00:00",
   "updatedAt": "2026-11-25T10:00:00"
 }
@@ -177,6 +192,9 @@ success: `200 OK`
 | id | Long | Y | 상품 식별자 |
 | name | String | Y | 상품명 |
 | price | Long | Y | 가격(원) |
+| description | String | N | 상품 설명. 없으면 null |
+| stock | Integer | Y | 재고 수량 |
+| category | String | N | 카테고리. 없으면 null |
 | createdAt | String | Y | 등록 일시 |
 | updatedAt | String | Y | 수정 일시 |
 
@@ -258,6 +276,9 @@ success: `200 OK`
       "id": 1,
       "name": "키보드",
       "price": 35000,
+      "description": "기계식 키보드",
+      "stock": 10,
+      "category": "컴퓨터 주변기기",
       "createdAt": "2026-11-25T10:00:00",
       "updatedAt": "2026-11-25T10:00:00"
     }
@@ -275,6 +296,9 @@ success: `200 OK`
 | content[].id | Long | Y | 상품 식별자 |
 | content[].name | String | Y | 상품명 |
 | content[].price | Long | Y | 가격(원) |
+| content[].description | String | N | 상품 설명. 없으면 null |
+| content[].stock | Integer | Y | 재고 수량 |
+| content[].category | String | N | 카테고리. 없으면 null |
 | content[].createdAt | String | Y | 등록 일시 |
 | content[].updatedAt | String | Y | 수정 일시 |
 | page | Integer | Y | 현재 페이지 번호 |
@@ -312,9 +336,9 @@ success: `200 OK`
 
 등록된 상품의 정보를 수정할 때 사용한다.
 
-- 필수: productId, body 의 name·price 중 1개 이상
-- 선택: name, price (보낸 필드만 변경)
-- 수정 방식 결정 필요 D17, 상품명 규칙 결정 필요 D12, 가격 규칙 결정 필요 D13, 상품명 중복 결정 필요 D14, 응답 내용 결정 필요 D20
+- 필수: productId, body 의 name·price·description·stock·category 중 1개 이상
+- 선택: name, price, description, stock, category (보낸 필드만 변경)
+- 상품명은 1~100자 (D12). description·stock·category 의 세부 규칙 결정 필요 D21. 수정 방식 결정 필요 D17, 가격 규칙 결정 필요 D13, 상품명 중복 결정 필요 D14, 응답 내용 결정 필요 D20
 
 # 02. 요청(Request)
 
@@ -345,8 +369,11 @@ success: `200 OK`
 
 | 이름 | 데이터타입 | 필수 | 설명 |
 |---|---|---|---|
-| name | String | N | 변경할 상품명. 규칙 결정 필요 D12 |
+| name | String | N | 변경할 상품명. 1~100자 |
 | price | Long | N | 변경할 가격(원). 규칙 결정 필요 D13 |
+| description | String | N | 변경할 상품 설명. 규칙 결정 필요 D21 |
+| stock | Integer | N | 변경할 재고 수량. 규칙 결정 필요 D21 |
+| category | String | N | 변경할 카테고리. 규칙 결정 필요 D21 |
 
 # 03. 응답(Response)
 
@@ -365,6 +392,9 @@ success: `200 OK`
   "id": 1,
   "name": "키보드",
   "price": 39000,
+  "description": "기계식 키보드",
+  "stock": 10,
+  "category": "컴퓨터 주변기기",
   "createdAt": "2026-11-25T10:00:00",
   "updatedAt": "2026-11-25T11:00:00"
 }
@@ -375,10 +405,13 @@ success: `200 OK`
 | id | Long | Y | 수정된 상품 식별자 |
 | name | String | Y | 상품명 |
 | price | Long | Y | 가격(원) |
+| description | String | N | 상품 설명. 없으면 null |
+| stock | Integer | Y | 재고 수량 |
+| category | String | N | 카테고리. 없으면 null |
 | createdAt | String | Y | 등록 일시 |
 | updatedAt | String | Y | 수정 일시 |
 
-**에러 응답:** `400 Bad Request` — 수정할 값이 하나도 없거나 형식이 올바르지 않을 때
+**에러 응답:** `400 Bad Request` — 수정할 값이 하나도 없거나 name 이 1~100자가 아니거나 형식이 올바르지 않을 때
 
 ```json
 {

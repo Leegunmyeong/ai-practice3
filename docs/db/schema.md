@@ -33,6 +33,9 @@ erDiagram
     BIGINT id PK
     VARCHAR name
     BIGINT price
+    VARCHAR description
+    INT stock
+    VARCHAR category
     DATETIME created_at
     DATETIME updated_at
   }
@@ -40,13 +43,16 @@ erDiagram
 
 ## product
 
-상품 요구사항 문서가 없어 최소 필드(name, price)만 두었다. 추가 필드는 결정 필요 D11. 상품과 회원의 관계(등록자)는 요구사항에 없어 두지 않는다 (결정 필요 D15).
+필드는 name, price, description, stock, category 로 정했다 (D11). description·stock·category 의 길이·범위·필수 여부는 결정 필요 D21. 상품과 회원의 관계(등록자)는 요구사항에 없어 두지 않는다 (결정 필요 D15).
 
 | 컬럼 | 타입 | NULL | 키 | 설명 |
 |---|---|---|---|---|
 | id | BIGINT AUTO_INCREMENT | N | PK | 상품 식별자 |
-| name | VARCHAR | N | | 상품명. 길이 결정 필요 D12, 중복 허용 결정 필요 D14 |
+| name | VARCHAR(100) | N | | 상품명. 1~100자 (D12), 중복 허용 결정 필요 D14 |
 | price | BIGINT | N | | 상품 가격(원 단위 정수). 범위 결정 필요 D13 |
+| description | VARCHAR(1000) | Y | | 상품 설명. 길이 결정 필요 D21 |
+| stock | INT | N | | 재고 수량. 기본값 0. 범위 결정 필요 D21 |
+| category | VARCHAR(50) | Y | | 카테고리. 길이 결정 필요 D21 |
 | created_at | DATETIME | N | | 등록 일시 (BaseTimeEntity) |
 | updated_at | DATETIME | N | | 수정 일시 (BaseTimeEntity) |
 

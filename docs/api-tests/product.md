@@ -8,6 +8,8 @@
 | E4 | `PATCH /api/products/{productId}` | 수정할 값이 하나도 없음 | 400 |
 | E5 | `PATCH /api/products/{productId}` | 없는 상품 수정 | 404 |
 | E6 | `DELETE /api/products/{productId}` | 없는 상품 삭제 | 404 |
+| E7 | `POST /api/products` | name 이 100자 초과 | 400 |
+| E8 | `POST /api/products` | name 이 빈 문자열 | 400 |
 
 ## E1. 필수 값(name) 누락
 요청: `POST /api/products`
@@ -118,5 +120,47 @@
 {
   "status": 404,
   "message": "상품을 찾을 수 없습니다."
+}
+```
+
+## E7. name 이 100자 초과
+요청: `POST /api/products`
+
+준비: 없음
+
+요청
+```json
+{
+  "name": "가(101자 문자열)",
+  "price": 35000
+}
+```
+
+응답 `400`
+```json
+{
+  "status": 400,
+  "message": "요청 값이 올바르지 않습니다."
+}
+```
+
+## E8. name 이 빈 문자열
+요청: `POST /api/products`
+
+준비: 없음
+
+요청
+```json
+{
+  "name": "",
+  "price": 35000
+}
+```
+
+응답 `400`
+```json
+{
+  "status": 400,
+  "message": "요청 값이 올바르지 않습니다."
 }
 ```
