@@ -2,13 +2,32 @@
 
 ## 언제 수정하나
 - API 가 바뀌면 코드보다 명세를 먼저 고친다.
-- API 하나당 파일 하나: `docs/api/<기능명>.md` (예: `docs/api/signup.md`, `docs/api/update-member.md`)
+<!-- [수정: 도메인 구조] 기존: API 하나당 파일 하나: `docs/api/<기능명>.md` (예: `docs/api/signup.md`, `docs/api/update-member.md`) -->
+- API 하나당 파일 하나: `docs/api/<도메인>/<동작명>.md` (예: `docs/api/member/create.md`, `docs/api/product/update.md`)
 - 같은 API의 명세가 이미 있으면 새로 만들지 않고 덮어쓴다.
+
+<!-- [수정: 도메인 구조] 아래 "파일 경로 규칙" 섹션 새로 추가 -->
+## 파일 경로 규칙
+- 도메인: 템플릿의 `domain:` 값과 같다. 영문 소문자 단수형 kebab-case (`member`, `product`, `order-item`).
+- 동작명: 기본 CRUD 는 아래 이름으로 통일한다.
+
+| 동작명 | method | 예시 |
+|---|---|---|
+| `create` | POST | `docs/api/product/create.md` |
+| `get` | GET (단건) | `docs/api/product/get.md` |
+| `list` | GET (목록) | `docs/api/product/list.md` |
+| `update` | PATCH / PUT | `docs/api/product/update.md` |
+| `delete` | DELETE | `docs/api/product/delete.md` |
+
+- 위에 없는 동작은 동사로 시작하는 kebab-case 로 짓는다 (예: `docs/api/member/signup.md`, `docs/api/member/change-password.md`).
+- 같은 경로를 `docs/api-tests/` 에도 쓴다.
 
 ## 작업 순서
 0. 맨 위 `success:` 에 성공 상태 코드를 적는다 (생성 201, 조회·수정 200, 삭제 204).
-1. `docs/api/` 에 같은 API의 명세가 이미 있는지 확인한다.
-2. 요청에서 기능명과 필요한 API를 정리한다.
+<!-- [수정: 도메인 구조] 기존 1: `docs/api/` 에 같은 API의 명세가 이미 있는지 확인한다. -->
+1. `docs/api/<도메인>/` 에 같은 API의 명세가 이미 있는지 확인한다. 도메인 폴더가 없으면 만든다.
+<!-- [수정: 도메인 구조] 기존 2: 요청에서 기능명과 필요한 API를 정리한다. -->
+2. 요청에서 도메인과 필요한 API(동작명)를 정리한다.
 3. 아래 작성 규칙과 템플릿대로 명세를 작성한다.
 4. 다 쓴 뒤 작성 규칙을 하나씩 대조해 빠진 것이 없는지 확인한다.
 

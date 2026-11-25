@@ -1,5 +1,6 @@
 # 예외 테스트 작성 지침서
-- 명세의 **에러 응답마다 케이스 하나**. 파일명은 명세와 같게 `docs/api-tests/<기능명>.md`.
+<!-- [수정: 도메인 구조] 기존: 파일명은 명세와 같게 `docs/api-tests/<기능명>.md`. -->
+- 명세의 **에러 응답마다 케이스 하나**. 경로는 명세와 같게 `docs/api-tests/<도메인>/<동작명>.md` (예: 명세 `docs/api/member/create.md` → `docs/api-tests/member/create.md`).
 - 요청 body JSON 과 기대 응답 JSON 만 쓴다. 응답은 명세와 글자까지 같게.
 - JSON 은 한 줄로 쓰지 않고, 필드마다 줄을 나누고 2칸 들여쓴다.
 
