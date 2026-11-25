@@ -17,10 +17,10 @@ DB 명세(`docs/db/schema.md`)는 추천 범위(D1)의 응답 필드가 모두 �
 | D2 | 이미 있는 회원가입(`POST /api/members`, domain: member)도 이번 "회원 API" 에 포함하나? | 제외하고 `docs/api/signup.md` 를 그대로 사용 / 회원가입 명세도 다시 검토 | 제외하고 `docs/api/signup.md` 를 그대로 사용 | |
 | D3 | 회원 조회는 누가 할 수 있나? | 인증 없이 누구나 / 로그인한 회원 / 본인만 (뒤의 두 가지는 인증 방식도 정해야 함) | 인증 없이 누구나 (D4 에서 이메일을 제외하는 조건. 인증 요구사항이 없음) | |
 | D4 | 조회 응답에 담을 값은? (회원가입 응답은 email 포함) | id, nickname, createdAt / id, email, nickname, createdAt / updatedAt 추가 | id, nickname, createdAt (비밀번호 제외. 인증이 없으므로 이메일도 제외) | |
-| D5 | 회원이 없을 때의 응답은? | 404 "회원을 찾을 수 없습니다." / 다른 상태 코드·메시지 | 404 "회원을 찾을 수 없습니다." | |
 | D6 | memberId 가 Long 형식이 아닐 때의 응답은? (메시지 구분 여부는 회원가입 D8 과 맞춰야 함) | 400 "요청 값이 올바르지 않습니다." / 필드별 메시지 / 404 로 처리 | 400 "요청 값이 올바르지 않습니다." (회원가입의 400 응답과 같음) | |
 | D7 | `member.updated_at` 의 NULL 허용 여부가 다름: DB 명세는 NULL 불가, `BaseTimeEntity` 는 `nullable = false` 가 없어 NULL 허용. 어느 쪽이 기준인가? | NULL 불가 (코드는 별도 작업으로 수정) / NULL 허용 (DB 명세 수정) | NULL 불가 (DB 명세 유지) | |
 
 ## 결정 완료
 | 번호 | 결정 | 반영 커밋 |
 |---|---|---|
+| D5 | 회원이 없으면 404 "회원을 찾을 수 없습니다." (PR 코멘트) | docs: member 결정 반영 |

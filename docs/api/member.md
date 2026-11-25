@@ -13,8 +13,9 @@ success: `200 OK`
 회원 한 명의 정보를 조회할 때 사용한다. 요구사항 문서가 없어 이 API 의 범위는 추천값이며 확정되지 않았다.
 
 - 필수: memberId
+- 해당 memberId 의 회원이 없으면 `404 Not Found` 를 반환한다.
 - 선택: 없음
-- API 범위 결정 필요 D1, 회원가입 명세와의 관계 결정 필요 D2, 조회 권한 결정 필요 D3, 응답 내용 결정 필요 D4, 회원이 없을 때의 처리 결정 필요 D5, memberId 형식 오류 처리 결정 필요 D6
+- API 범위 결정 필요 D1, 회원가입 명세와의 관계 결정 필요 D2, 조회 권한 결정 필요 D3, 응답 내용 결정 필요 D4, memberId 형식 오류 처리 결정 필요 D6
 
 # 02. 요청(Request)
 
@@ -79,7 +80,7 @@ success: `200 OK`
 | status | Integer | Y | HTTP 상태 코드 |
 | message | String | Y | 에러 메시지 |
 
-**에러 응답:** `404 Not Found` — 해당 memberId 의 회원이 없을 때 (결정 필요 D5)
+**에러 응답:** `404 Not Found` — 해당 memberId 의 회원이 없을 때
 
 ```json
 {
